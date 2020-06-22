@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Lucas Barbeito" />
+<meta name="author" content="Jorge López Bauer" />
+<meta name="author" content="Georges Stefan" />
+
+
+<title>Análisis de datos para predicción de problemas coronarios</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+<script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+<link href="site_libs/readthedown-0.1/readthedown.css" rel="stylesheet" />
+<script src="site_libs/readthedown-0.1/readthedown.js"></script>
+
+
+
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+<div id="content" data-toggle="wy-nav-shift">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("text-table-of-contents");
+});
+</script>
+
+<!-- code folding -->
+
+<nav id="nav-top" role="navigation" aria-label="top navigation">
+    <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+</nav>
+
+
+<div id="header">
+<h1 class="title">Análisis de datos para predicción de problemas coronarios</h1>
+</div>
+
+
+<div id="sidebar">
+    <h2><a href="#content">Análisis de datos para predicción de problemas coronarios</a></h2>
+    <div id="table-of-contents">
+      <ul>
+      <li><a href="#introducción">Introducción</a></li>
+      <li><a href="#análisis">Análisis</a><ul>
+      <li><a href="#análisis-univariable">Análisis univariable</a><ul>
+      <li><a href="#factores-de-riesgo">Factores de riesgo</a></li>
+      <li><a href="#edad">Edad</a></li>
+      <li><a href="#género">Género</a></li>
+      </ul></li>
+      <li><a href="#análisis-bivariable">Análisis bivariable</a><ul>
+      <li><a href="#HTA-DLP-tabs">Hipertensión y dislipemia</a><ul>
+      <li><a href="#con-eventos">Con eventos</a></li>
+      <li><a href="#sin-eventos">Sin eventos</a></li>
+      <li><a href="#section"></a></li>
+      </ul></li>
+      <li><a href="#Gen-Edad-tabs">Género y edad</a><ul>
+      <li><a href="#con-eventos-1">Con eventos</a></li>
+      <li><a href="#sin-eventos-1">Sin eventos</a></li>
+      <li><a href="#section-1"></a></li>
+      </ul></li>
+      <li><a href="#OBES-DLP-tabs">Obesidad y dislipemia</a><ul>
+      <li><a href="#con-eventos-2">Con eventos</a></li>
+      <li><a href="#sin-eventos-2">Sin eventos</a></li>
+      <li><a href="#section-2"></a></li>
+      </ul></li>
+      </ul></li>
+      <li><a href="#análisis-multivariable">Análisis multivariable</a><ul>
+      <li><a href="#hipertensión-dislipemia-y-tabaquismo">Hipertensión, dislipemia y tabaquismo</a></li>
+      <li><a href="#hipertensión-dislipemia-y-revascularización">Hipertensión, dislipemia y revascularización</a></li>
+      </ul></li>
+      </ul></li>
+      <li><a href="#predictor">Predictor</a></li>
+      </ul>
+    </div>
+    
+    <div id="postamble" data-toggle="wy-nav-shift" class="status">
+              <p class="author"><span class="glyphicon glyphicon-user"></span> Lucas Barbeito</p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jorge López Bauer</p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Georges Stefan</p>
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 22 junio 2020</p>
+        </div>
+</div>
+
+<div id="main">
+<div id="introducción" class="section level1">
+<h1>Introducción</h1>
+<!-- Evitamos utilizar terminología que podrían no entender como "dataset"   -->
+<p>La información utilizada para el reporte contiene datos de 1002 pacientes que fueron atendidos en la guardia del Hospital Universitario Austral. Algunos fueron internados y otros se los hizo esperar, información correspondiente al dato “Evento”.</p>
+<p>Esta información está compuesta por 19 datos de cada uno de los pacientes, más el dato “Evento”, para un total de 20 datos (llamados “variables”) por paciente.</p>
+<p>A continuación se presenta un análisis progresivo de la información. Primero se realiza un análisis univariable, luego bivariable y por último multivariable. Al finalizar esta etapa se procede a la construcción de un modelo matemático para la predicción de eventos en pacientes.</p>
+<!-- Mejorar esta parte, "manipular" suena algo negativo, alabar el dataset -->
+<!-- Los datos no se manipularon de ninguna manera al realizar el análisis. El conjunto de datos proporcionado está completo, es decir, no posee algún dato faltante. -->
+</div>
+<div id="análisis" class="section level1">
+<h1>Análisis</h1>
+<div id="análisis-univariable" class="section level2">
+<h2>Análisis univariable</h2>
+<div id="factores-de-riesgo" class="section level3">
+<h3>Factores de riesgo</h3>
+<table class='table'>
+<tr>
+<td>
+<img src="index_files/figure-html/graf%20factores-1.png" width="768" />
+</td>
+<td>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AHF</td>
+<td>Antecedentes familiares</td>
+</tr>
+<tr class="even">
+<td>DBT</td>
+<td>Diabetes</td>
+</tr>
+<tr class="odd">
+<td>DLP</td>
+<td>Dislipemia</td>
+</tr>
+<tr class="even">
+<td>HTA</td>
+<td>Hipertensión arterial</td>
+</tr>
+<tr class="odd">
+<td>OBES</td>
+<td>Obesidad</td>
+</tr>
+<tr class="even">
+<td>SCApHR</td>
+<td>Historia de revascularización</td>
+</tr>
+<tr class="odd">
+<td>TBQ</td>
+<td>Tabaquismo</td>
+</tr>
+</tbody>
+</table>
+</td>
+<tr>
+</table>
+<p>Se puede observar como <strong>hay mayor presencia de los factores de riesgo en quienes sufrieron eventos</strong>. En el caso de la hipertensión arterial y la dislipemia, más de la mitad de las personas que sufrieron un evento poseen uno de estos factores.</p>
+</div>
+<div id="edad" class="section level3">
+<h3>Edad</h3>
+<p><img src="index_files/figure-html/graf%20edad-1.png" width="768" style="display: block; margin: auto;" /></p>
+<!-- Evitamos usar el término "moda" -->
+<p>Las lineas punteadas señalan las edades más frecuentes de cada grupo. <strong>En el grupo de quienes sufrieron eventos, la edad más frecuente es de 66 años, mientras que en el grupo de personas sin eventos es de 47 años</strong>.</p>
+</div>
+<div id="género" class="section level3">
+<h3>Género</h3>
+<p>En el conjunto de datos hay 595 hombres y 407 mujeres, esto quiere decir que está compuesto por 59% hombres y 41% mujeres.</p>
+<p><img src="index_files/figure-html/graf%20genero-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>El 16% de los hombres y el 6% de las mujeres sufrieton eventos. <!-- **Los hombres sufrieron más eventos que las mujeres** --></p>
+</div>
+</div>
+<div id="análisis-bivariable" class="section level2">
+<h2>Análisis bivariable</h2>
+<div id="HTA-DLP-tabs" class="section level3 tabset tabset-fade">
+<h3>Hipertensión y dislipemia</h3>
+<p>De los 1002 pacientes del conjunto de datos, hay 329 personas (33%) con hipertensión arterial y 279 personas (28%) con dislipemia. Separando los 1002 pacientes en quienes sufrieron eventos y en quienes no, tenemos:</p>
+<div id="con-eventos" class="section level4 unnumbered unnumbered">
+<h4>Con eventos</h4>
+<p><img src="index_files/figure-html/graphConEventosHTAyDLP-1.png" width="768" /></p>
+</div>
+<div id="sin-eventos" class="section level4 unnumbered unnumbered">
+<h4>Sin eventos</h4>
+<p><img src="index_files/figure-html/graphSinEventosHTAyDLP-1.png" width="768" /></p>
+<script>
+  $(document).ready(function() {
+    $('#HTA-DLP-div').appendTo('#HTA-DLP-tabs');
+  });
+</script>
+<div id="HTA-DLP-div">
+<p>Se puede observar como en el grupo de quienes sufrieron un evento, la mayoría de las personas son hipertensos con dislipemia, siendo casi el doble de quienes no poseen ambos factores. En cambio, en el grupo de quienes no sufrieron un evento, más de la mitad de las personas no tienen ninguno de estos dos factores.</p>
+<p><strong>Las personas hipertensas que presentan dislipemia tienen 18 veces más probabilidad de sufrir un evento, mientras que las personas no hipertensas con dislipemia tienen 2.5 veces más probabilidad de sufrir un evento</strong>. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6515015/">Ariyanti y Besral (2019)</a>. Los porcentajes de personas con dislipemia en ambos grupos, concuerda con los porcentajes de los grupos del paper.</p>
+</div>
+</div>
+<div id="section" class="section level4 unnumbered">
+<h4></h4>
+</div>
+</div>
+<div id="Gen-Edad-tabs" class="section level3 tabset tabset-fade">
+<h3>Género y edad</h3>
+<div id="con-eventos-1" class="section level4 unnumbered unnumbered">
+<h4>Con eventos</h4>
+<p><img src="index_files/figure-html/graphConEventosGenero-1.png" width="768" /></p>
+<!-- Revisar el tema de la grafica de mujeres, parece que hay una subpoblacion en el primer grupo que consta de mujeres mas jovenes que tienen eventos. Ver a que se debe esto, buscar entre los factores de riesgo cuales predominan en esta subpoblacion. -->
+</div>
+<div id="sin-eventos-1" class="section level4 unnumbered unnumbered">
+<h4>Sin eventos</h4>
+<p><img src="index_files/figure-html/graphSinEventosGenero-1.png" width="768" /></p>
+<script>
+  $(document).ready(function() {
+    $('#Gen-Edad-div').appendTo('#Gen-Edad-tabs');
+  });
+</script>
+<div id="Gen-Edad-div">
+<p>En el grupo de personas que sufrieron eventos, la edad más frecuente en las mujeres es de 70 años, mientras que en los hombres es de 66 años.</p>
+<p>Se puede observar como en la curva de las mujeres hay un “pico” más pequeño antes del principal, centrado entre los 49-50 años. Este “pico” se debe a 4 mujeres con edades entre 48 y 50 años, las cuales sufrieron eventos. Los factores que todas tuvieron en común fueron:</p>
+<ul>
+<li>Presentaron dolor actual (PDA)</li>
+<li>El dolor no reproducía palpación (RP)</li>
+<li>El dolor no era igual al de un evento previo (MDEP)</li>
+<li>No eran diabéticas (DBT)</li>
+<li>No tenían antecedentes familaires (AHF)</li>
+</ul>
+<p>En el grupo de personas sin eventos, la edad más frecuente en las mujeres es de 39 años, mientras que en los hombres es de 48 años.</p>
+</div>
+</div>
+<div id="section-1" class="section level4 unnumbered">
+<h4></h4>
+</div>
+</div>
+<div id="OBES-DLP-tabs" class="section level3 tabset tabset-fade">
+<h3>Obesidad y dislipemia</h3>
+<div id="con-eventos-2" class="section level4 unnumbered unnumbered">
+<h4>Con eventos</h4>
+<p><img src="index_files/figure-html/graphConEventosOBESyDLP-1.png" width="768" /></p>
+</div>
+<div id="sin-eventos-2" class="section level4 unnumbered unnumbered">
+<h4>Sin eventos</h4>
+<p><img src="index_files/figure-html/graphSinEventosOBESyBLP-1.png" width="768" /></p>
+</div>
+<div id="section-2" class="section level4 unnumbered">
+<h4></h4>
+<script>
+  $(document).ready(function() {
+    $('#OBES-DLP-div').appendTo('#OBES-DLP-tabs');
+  });
+</script>
+<div id="OBES-DLP-div">
+<p>En el grupo de quienes no sufrieron eventos <strong>dos tercios son personas sin obesidad ni dislipemia</strong>. También se puede observar una desigualdad en la cantidad de personas que si tuvieron ambos factores de riesgo (82) y quienes no (590), claramente a favor de quienes no los poseen.</p>
+<p>En el otro grupo (quienes si sufrieron eventos) también hay una diferencia en esta cantidad, pero en este caso hay más personas obesas con dislipemia y la cantidad es más semejante (37 y 33).</p>
+<p>Al realizar una prueba de chi cuadrado de Pearson y calculando el coeficiente de correlación entre ambas variables, <strong>se concluye con que existe una asociación positiva entre ellas</strong>. Esto quiere decir que sus valores se mueven en la misma dirección. Al disminuir una, la otra disminuye y al aumentar una, la otra aumenta.</p>
+<script language="javascript"> 
+    function toggle(num) {
+      var ele = document.getElementById("toggleText" + num);
+      var text = document.getElementById("displayText" + num);
+      if(ele.style.display == "block") {
+        ele.style.display = "none";
+        text.innerHTML = "show";
+      }
+      else {
+        ele.style.display = "block";
+        text.innerHTML = "hide";
+      }
+   } 
+  </script>
+<a id="displayText" href="javascript:toggle(1);">Resultados de la prueba</a>
+<div id="toggleText1" style="display: none">
+<pre><code>## PersonasConDislipemiaYObesidad:
+##    OBES
+## DLP   0   1
+##   0 623 100
+##   1 157 122
+## 
+##    Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  PersonasConDislipemiaYObesidad
+## X-squared = 102.6, df = 1, p-value &lt; 2.2e-16
+## 
+## Coeficiente de correlación: 0.323</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="análisis-multivariable" class="section level2">
+<h2>Análisis multivariable</h2>
+<div id="hipertensión-dislipemia-y-tabaquismo" class="section level3">
+<h3>Hipertensión, dislipemia y tabaquismo</h3>
+<p><img src="index_files/figure-html/graph%20HTA,%20DLP%20y%20TBQ-1.png" width="768" /></p>
+<p><strong>De 8069 adultos estadounidenses que fallecieron por un evento, nueve de cada diez tuvieron al menos uno de estos tres factores de riesgo</strong>. <a href="https://www.researchgate.net/profile/David_Brown37/publication/278192232_Major_coronary_risk_factors_and_death_from_coronary_heart_disease_-_Baseline_and_follow-up_mortality_health_and_nutrition_examination_data_from_the_second_national_survey_NHANES_II/links/5b4115dcaca2728a0d618972/Major-coronary-risk-factors-and-death-from-coronary-heart-disease-Baseline-and-follow-up-mortality-health-and-nutrition-examination-data-from-the-second-national-survey-NHANES-II.pdf">Mensah, Brown, Croft y Greenlund (2005)</a>.</p>
+<p>En los pacientes que tuvieron un evento, 106 (88%) tuvieron al menos uno de estos factores de riesgo y la mayoría (44%) tuvo dos de los tres factores de riesgo.</p>
+<p>En los pacientes que no tuvieron un evento, 416 (47%) tuvieron al menos uno de estos factores de riesgo y la mayoría (53%) tuvo cero de los tres factores de riesgo.</p>
+</div>
+<div id="hipertensión-dislipemia-y-revascularización" class="section level3">
+<h3>Hipertensión, dislipemia y revascularización</h3>
+<p><img src="index_files/figure-html/graph%20HTA,%20DLP%20y%20SCApHR-1.png" width="768" /></p>
+<p>El 25% de quienes sufrieron un evento tienen hipertensión arterial, dislipemia e historia de revascularización. Mientras que en el grupo de quienes no sufrieron un evento, el 7% tienen estos tres factores de riesgo a la vez.</p>
+<p>En el grupo de quienes sufrieron eventos el 20% no tiene ninguno de estos factores, mientras que en el grupo de quienes no sufrieron eventos, el 57% no tiene ninguno de estos factores.</p>
+<p><strong>Más de la mitad de quienes no sufrieron eventos no tienen hipertensión, dislipemia ni historia de revascularización. Un cuarto de quienes si sufrieron eventos poseen los tres factores de riesgo a la vez.</strong></p>
+</div>
+</div>
+</div>
+<div id="predictor" class="section level1">
+<h1>Predictor</h1>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+</div>
+</div>
+
+
+</div>
+
+
+
+
+<script>
+$(document).ready(function () {
+ 	  });
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
