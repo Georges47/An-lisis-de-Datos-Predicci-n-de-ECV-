@@ -8,9 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Lucas Barbeito" />
-<meta name="author" content="Jorge López Bauer" />
-<meta name="author" content="Georges Stefan" />
+<meta name="author" content="Lucas Barbeito lucas.barbeito@ing.austral.edu.ar" />
+<meta name="author" content="Jorge López Bauer jorge.lopezbauer@ing.austral.edu.ar" />
+<meta name="author" content="Georges Stefan georges.stefan@ing.austral.edu.ar" />
 
 
 <title>Análisis de datos para predicción de problemas coronarios</title>
@@ -88,17 +88,21 @@ $(document).ready(function () {
       <li><a href="#análisis-multivariable">Análisis multivariable</a><ul>
       <li><a href="#hipertensión-dislipemia-y-tabaquismo">Hipertensión, dislipemia y tabaquismo</a></li>
       <li><a href="#hipertensión-dislipemia-y-revascularización">Hipertensión, dislipemia y revascularización</a></li>
+      <li><a href="#matriz-de-correlación">Matriz de correlación</a></li>
       </ul></li>
       </ul></li>
-      <li><a href="#predictor">Predictor</a></li>
+      <li><a href="#predictor">Predictor</a><ul>
+      <li><a href="#selección-de-variables">Selección de variables</a></li>
+      <li><a href="#primer-modelo-regresión-logística">Primer modelo: Regresión logística</a></li>
+      </ul></li>
       </ul>
     </div>
     
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
-              <p class="author"><span class="glyphicon glyphicon-user"></span> Lucas Barbeito</p>
-                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jorge López Bauer</p>
-                  <p class="author"><span class="glyphicon glyphicon-user"></span> Georges Stefan</p>
-                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 22 junio 2020</p>
+              <p class="author"><span class="glyphicon glyphicon-user"></span> Lucas Barbeito <a href="mailto:lucas.barbeito@ing.austral.edu.ar" class="email">lucas.barbeito@ing.austral.edu.ar</a></p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jorge López Bauer <a href="mailto:jorge.lopezbauer@ing.austral.edu.ar" class="email">jorge.lopezbauer@ing.austral.edu.ar</a></p>
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Georges Stefan <a href="mailto:georges.stefan@ing.austral.edu.ar" class="email">georges.stefan@ing.austral.edu.ar</a></p>
+                  <p class="date"><span class="glyphicon glyphicon-calendar"></span> 01 julio 2020</p>
         </div>
 </div>
 
@@ -308,32 +312,67 @@ $(document).ready(function () {
 <p>En el grupo de quienes sufrieron eventos el 20% no tiene ninguno de estos factores, mientras que en el grupo de quienes no sufrieron eventos, el 57% no tiene ninguno de estos factores.</p>
 <p><strong>Más de la mitad de quienes no sufrieron eventos no tienen hipertensión, dislipemia ni historia de revascularización. Un cuarto de quienes si sufrieron eventos poseen los tres factores de riesgo a la vez.</strong></p>
 </div>
+<div id="matriz-de-correlación" class="section level3">
+<h3>Matriz de correlación</h3>
+<center>
+<table class="corrplot">
+<tr>
+<td text-align="center">
+<img src="index_files/figure-html/graph%20corrplot-1.png" width="768" />
+</td>
+</tr>
+</table>
+</center>
+</div>
 </div>
 </div>
 <div id="predictor" class="section level1">
 <h1>Predictor</h1>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
+<div id="selección-de-variables" class="section level2">
+<h2>Selección de variables</h2>
+<p>Para el desarrollo del modelo predictivo es necesario seleccionar las variables a utilizar. Hay variables que, para nuestro objetivo, son más relevantes que otras. Además, no sería práctico hacerle demasiadas preguntas al paciente en la guardia.</p>
+<p>En un primer lugar, para la selección de las variables se utiliza una herramienta que proporciona el lenguaje de programación R. Esta herramienta, llamada CARET (<strong>C</strong>lassification <strong>A</strong>nd <strong>RE</strong>gression <strong>T</strong>raining), posee varias funciones para generar distintos tipo de modelos y es utilizada extensamente en el ámbito científico.</p>
+<p>Building Predictive Models in R Using the caret Package. <a href="https://www.jstatsoft.org/article/view/v028i05">Kuhn (2008)</a></p>
+<p>A Proposed Data Analytics Workflow and Example Using the R Caret Package. <a href="http://matthewalanham.com/Students/2018_MWDSI_R%20caret%20paper.pdf">Jones et al (2018)</a></p>
+<p>De todas las variables independientes del conjunto de datos (la variable Evento sería dependiente, la que se desea predecir), la herramienta CARET sugiere utilizar las siguientes:</p>
+<!-- Recursive feature selection -->
+<!-- Outer resampling method: Cross-Validated (10 fold, repeated 3 times)  -->
+<!-- Resampling performance over subset size: -->
+<!--  Variables   RMSE Rsquared    MAE  RMSESD RsquaredSD   MAESD Selected -->
+<!--          4 0.3093   0.1328 0.1979 0.03791    0.06909 0.02683          -->
+<!--          8 0.3099   0.1311 0.1882 0.03641    0.06897 0.02770          -->
+<!--         16 0.2990   0.1869 0.1797 0.03439    0.07286 0.02694          -->
+<!--         19 0.2979   0.1924 0.1806 0.03411    0.07811 0.02676        * -->
+<!-- The top 5 variables (out of 19): -->
+<center>
+<table>
+<thead>
+<tr class="header">
+<th>Edad</th>
+<th>Antecedentes familiares</th>
+<th>Tabaquismo</th>
+<th>Obesidad</th>
+<th>Dislipemia</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<!-- | Variable | Significado                                | -->
+<!-- |----------|--------------------------------------------| -->
+<!-- | Edad     | Edad                                       | -->
+<!-- | AHF      | Antecedentes familiares                    | -->
+<!-- | TBQ      | Tabaquismo                                 | -->
+<!-- | OBES     | Obesidad                                   | -->
+<!-- | DLP      | Dislipemia                                 | -->
+<br />
+</center>
+<p>Pero se puede ver como en ese listado no están presentes algunas variables que, en el análisis de datos realizado en la sección anterior, son relevantes. Como la hipertensión arterial (HTA), la diábetes (DBT) y la historia de revascularización (SCApHR).</p>
+<p>Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos</p>
+</div>
+<div id="primer-modelo-regresión-logística" class="section level2">
+<h2>Primer modelo: Regresión logística</h2>
+</div>
 </div>
 </div>
 

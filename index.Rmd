@@ -2,9 +2,9 @@
 gettitle: "test"
 title: "Análisis de datos para predicción de problemas coronarios"  
 author: 
-  - Lucas Barbeito
-  - Jorge López Bauer 
-  - Georges Stefan
+  - Lucas Barbeito lucas.barbeito@ing.austral.edu.ar
+  - Jorge López Bauer jorge.lopezbauer@ing.austral.edu.ar
+  - Georges Stefan georges.stefan@ing.austral.edu.ar
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   rmdformats::readthedown:
@@ -25,6 +25,7 @@ library(ggplot2)
 library(dplyr)
 library(treemap)
 library(plotrix)
+library(corrplot)
 ```
 
 ```{r dataset, echo=FALSE}
@@ -484,48 +485,66 @@ En el grupo de quienes sufrieron eventos el 20% no tiene ninguno de estos factor
 
 **Más de la mitad de quienes no sufrieron eventos no tienen hipertensión, dislipemia ni historia de revascularización. Un cuarto de quienes si sufrieron eventos poseen los tres factores de riesgo a la vez.**
 
+### Matriz de correlación
+<center>
+<table class='corrplot'>
+<tr>
+<td text-align="center">
+```{r graph corrplot, echo=FALSE, fig.height=7}
+  corr_mat=cor(dataset, method="s")
+  corrplot(corr_mat, method="color", tl.col = "black") 
+```
+</td>
+</tr>
+</table>
+</center>
+
 # Predictor
 
-.
+## Selección de variables
 
-.
+Para el desarrollo del modelo predictivo es necesario seleccionar las variables a utilizar. Hay variables que, para nuestro objetivo, son más relevantes que otras. Además, no sería práctico hacerle demasiadas preguntas al paciente en la guardia.
 
-.
+En un primer lugar, para la selección de las variables se utiliza una herramienta que proporciona el lenguaje de programación R. Esta herramienta, llamada CARET (**C**lassification **A**nd **RE**gression **T**raining), posee varias funciones para generar distintos tipo de modelos y es utilizada extensamente en el ámbito científico.
 
-.
+Building Predictive Models in R Using the caret Package.
+[Kuhn (2008)](https://www.jstatsoft.org/article/view/v028i05)
 
-.
+A Proposed Data Analytics Workflow and Example Using the R Caret Package.
+[Jones et al (2018)](http://matthewalanham.com/Students/2018_MWDSI_R%20caret%20paper.pdf)
 
-.
+De todas las variables independientes del conjunto de datos (la variable Evento sería dependiente, la que se desea predecir), la herramienta CARET sugiere utilizar las siguientes:
 
-.
+<!-- Recursive feature selection -->
 
-.
+<!-- Outer resampling method: Cross-Validated (10 fold, repeated 3 times)  -->
 
-.
+<!-- Resampling performance over subset size: -->
 
-.
+<!--  Variables   RMSE Rsquared    MAE  RMSESD RsquaredSD   MAESD Selected -->
+<!--          4 0.3093   0.1328 0.1979 0.03791    0.06909 0.02683          -->
+<!--          8 0.3099   0.1311 0.1882 0.03641    0.06897 0.02770          -->
+<!--         16 0.2990   0.1869 0.1797 0.03439    0.07286 0.02694          -->
+<!--         19 0.2979   0.1924 0.1806 0.03411    0.07811 0.02676        * -->
 
-.
+<!-- The top 5 variables (out of 19): -->
 
-.
+<center>
+| Edad | Antecedentes familiares | Tabaquismo | Obesidad | Dislipemia |
+|-|-|-|-|-| 
+<!-- | Variable | Significado                                | -->
+<!-- |----------|--------------------------------------------| -->
+<!-- | Edad     | Edad                                       | -->
+<!-- | AHF      | Antecedentes familiares                    | -->
+<!-- | TBQ      | Tabaquismo                                 | -->
+<!-- | OBES     | Obesidad                                   | -->
+<!-- | DLP      | Dislipemia                                 | -->
+<br />
+</center>
 
-.
+ 
+Pero se puede ver como en ese listado no están presentes algunas variables que, en el análisis de datos realizado en la sección anterior, son relevantes. Como la hipertensión arterial (HTA), la diábetes (DBT) y la historia de revascularización (SCApHR).
 
-.
+Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
+## Primer modelo: Regresión logística
