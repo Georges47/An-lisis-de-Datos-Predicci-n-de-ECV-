@@ -577,7 +577,7 @@ Por lo tanto, aún cuando la herramienta CARET participa en el momento de selecc
 <table>
 <tr>
 <td>
-![](./graphs/modelo1_importancia.png)
+![](./modelo1_importancia.png)
 </td>
 </tr>
 </table>
@@ -594,7 +594,7 @@ Para el modelo la variable más importante es la hipertensión arterial, seguido
 <table>
 <tr>
 <td>
-![](./graphs/modelo1_auroc.png)
+![](./modelo1_auroc.png)
 </td>
 </tr>
 </table>
