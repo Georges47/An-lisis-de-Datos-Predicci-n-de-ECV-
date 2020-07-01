@@ -26,6 +26,9 @@ library(dplyr)
 library(treemap)
 library(plotrix)
 library(corrplot)
+library(caret)
+library(ROCR)
+library(gbm)
 ```
 
 ```{r dataset, echo=FALSE}
@@ -486,6 +489,11 @@ En el grupo de quienes sufrieron eventos el 20% no tiene ninguno de estos factor
 **Más de la mitad de quienes no sufrieron eventos no tienen hipertensión, dislipemia ni historia de revascularización. Un cuarto de quienes si sufrieron eventos poseen los tres factores de riesgo a la vez.**
 
 ### Matriz de correlación
+
+A continuación presentamos una matriz de correlación de las 19 variables, en ella se puede observar la relación que hay entre pares de variables.
+
+Se puede ver que hay cierta relación entre los factores de riesgo. También entre la edad y la historia de revascularizacón (SCApHR) con los factores de riesgo. 
+
 <center>
 <table class='corrplot'>
 <tr>
@@ -539,12 +547,61 @@ De todas las variables independientes del conjunto de datos (la variable Evento 
 <!-- | TBQ      | Tabaquismo                                 | -->
 <!-- | OBES     | Obesidad                                   | -->
 <!-- | DLP      | Dislipemia                                 | -->
-<br />
 </center>
-
+<p class="bottom-space">
+</p>
  
 Pero se puede ver como en ese listado no están presentes algunas variables que, en el análisis de datos realizado en la sección anterior, son relevantes. Como la hipertensión arterial (HTA), la diábetes (DBT) y la historia de revascularización (SCApHR).
 
-Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos
+Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos.
 
-## Primer modelo: Regresión logística
+## Modelo
+
+  Por lo tanto, se utilizan las siguientes variables
+  
+<center>
+| Hipertensión arterial | Dislipemia | Tabaquismo | Obesidad |
+|-|-|-|-|-|
+</center>
+
+<p class="bottom-space">
+</p>
+
+  El modelo estadístico utilizado se basa en una regresión logística.
+
+  Para el modelo se realiza un análisis de regresión logístico.
+
+### Importancia de las variables
+
+<center>
+<table>
+<tr>
+<td>
+![](./graphs/modelo1_importancia.png)
+</td>
+</tr>
+</table>
+</center>
+
+<p class="bottom-space">
+</p>
+
+Para el modelo la variable más importante es la hipertensión arterial, seguido de la dislipemia, el tabaquismo y la obesidad.
+
+### Curva AUROC
+
+<center>
+<table>
+<tr>
+<td>
+![](./graphs/modelo1_auroc.png)
+</td>
+</tr>
+</table>
+</center>
+
+<p class="bottom-space">
+</p>
+
+El valor de la curva AUROC es de 0.806
+

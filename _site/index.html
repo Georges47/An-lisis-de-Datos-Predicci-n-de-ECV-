@@ -93,7 +93,10 @@ $(document).ready(function () {
       </ul></li>
       <li><a href="#predictor">Predictor</a><ul>
       <li><a href="#selección-de-variables">Selección de variables</a></li>
-      <li><a href="#primer-modelo-regresión-logística">Primer modelo: Regresión logística</a></li>
+      <li><a href="#modelo">Modelo</a><ul>
+      <li><a href="#importancia-de-las-variables">Importancia de las variables</a></li>
+      <li><a href="#curva-auroc">Curva AUROC</a></li>
+      </ul></li>
       </ul></li>
       </ul>
     </div>
@@ -314,6 +317,8 @@ $(document).ready(function () {
 </div>
 <div id="matriz-de-correlación" class="section level3">
 <h3>Matriz de correlación</h3>
+<p>A continuación presentamos una matriz de correlación de las 19 variables, en ella se puede observar la relación que hay entre pares de variables.</p>
+<p>Se puede ver que hay cierta relación entre los factores de riesgo. También entre la edad y la historia de revascularizacón (SCApHR) con los factores de riesgo.</p>
 <center>
 <table class="corrplot">
 <tr>
@@ -365,13 +370,63 @@ $(document).ready(function () {
 <!-- | TBQ      | Tabaquismo                                 | -->
 <!-- | OBES     | Obesidad                                   | -->
 <!-- | DLP      | Dislipemia                                 | -->
-<br />
 </center>
+<p class="bottom-space">
+</p>
 <p>Pero se puede ver como en ese listado no están presentes algunas variables que, en el análisis de datos realizado en la sección anterior, son relevantes. Como la hipertensión arterial (HTA), la diábetes (DBT) y la historia de revascularización (SCApHR).</p>
-<p>Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos</p>
+<p>Por lo tanto, aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos.</p>
 </div>
-<div id="primer-modelo-regresión-logística" class="section level2">
-<h2>Primer modelo: Regresión logística</h2>
+<div id="modelo" class="section level2">
+<h2>Modelo</h2>
+<p>Por lo tanto, se utilizan las siguientes variables</p>
+<center>
+<table>
+<thead>
+<tr class="header">
+<th>Hipertensión arterial</th>
+<th>Dislipemia</th>
+<th>Tabaquismo</th>
+<th>Obesidad</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</center>
+<p class="bottom-space">
+</p>
+<p>El modelo está basado en una regresión logística.</p>
+<div id="importancia-de-las-variables" class="section level3">
+<h3>Importancia de las variables</h3>
+<center>
+<table>
+<tr>
+<td>
+<img src="graphs/modelo1_importancia.png" />
+</td>
+</tr>
+</table>
+</center>
+<p class="bottom-space">
+</p>
+<p>Para el modelo la variable más importante es la hipertensión arterial, seguido de la dislipemia, el tabaquismo y la obesidad.</p>
+</div>
+<div id="curva-auroc" class="section level3">
+<h3>Curva AUROC</h3>
+<center>
+<table>
+<tr>
+<td>
+<img src="graphs/modelo1_auroc.png" />
+</td>
+</tr>
+</table>
+</center>
+<p class="bottom-space">
+</p>
+<p>El valor de la curva AUROC es de 0.806</p>
+</div>
 </div>
 </div>
 </div>
