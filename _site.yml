@@ -1,7 +1,0 @@
-output: 
-  rmdformats::readthedown:
-    theme: null
-    highlight: null
-    css: custom.css
-    toc_depth: 4
-    self_contained: yes
