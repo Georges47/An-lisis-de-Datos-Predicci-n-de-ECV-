@@ -112,12 +112,10 @@ $(document).ready(function () {
 <div id="main">
 <div id="introducción" class="section level1">
 <h1>Introducción</h1>
-<!-- Evitamos utilizar terminología que podrían no entender como "dataset"   -->
+<!-- Evitamos utilizar terminología que podrían no entender como "dataset" -->
 <p>La información utilizada para el reporte contiene datos de 1002 pacientes que fueron atendidos en la guardia del Hospital Universitario Austral. Algunos fueron internados y otros se los hizo esperar, información correspondiente al dato “Evento”.</p>
 <p>Esta información está compuesta por 19 datos de cada uno de los pacientes, más el dato “Evento”, para un total de 20 datos (llamados “variables”) por paciente.</p>
 <p>A continuación se presenta un análisis progresivo de la información. Primero se realiza un análisis univariable, luego bivariable y por último multivariable. Al finalizar esta etapa se procede a la construcción de un modelo matemático para la predicción de eventos en pacientes.</p>
-<!-- Mejorar esta parte, "manipular" suena algo negativo, alabar el dataset -->
-<!-- Los datos no se manipularon de ninguna manera al realizar el análisis. El conjunto de datos proporcionado está completo, es decir, no posee algún dato faltante. -->
 </div>
 <div id="análisis" class="section level1">
 <h1>Análisis</h1>
@@ -172,7 +170,7 @@ $(document).ready(function () {
 </td>
 <tr>
 </table>
-<p>Se puede observar como <strong>hay mayor presencia de los factores de riesgo en quienes sufrieron eventos</strong>. En el caso de la hipertensión arterial y la dislipemia, más de la mitad de las personas que sufrieron un evento poseen uno de estos factores.</p>
+<p>Se puede observar como <strong>hay mayor presencia de los factores de riesgo en quienes sufrieron eventos</strong>. En el caso de la hipertensión arterial y la dislipemia, más de la mitad de las personas que sufrieron un evento poseen uno de estos factores. Varios de estos factores son tratados como factores de riesgo por O’Donnella y Elosua (2008).</p>
 </div>
 <div id="edad" class="section level3">
 <h3>Edad</h3>
@@ -184,7 +182,7 @@ $(document).ready(function () {
 <h3>Género</h3>
 <p>En el conjunto de datos hay 595 hombres y 407 mujeres, esto quiere decir que está compuesto por 59% hombres y 41% mujeres.</p>
 <p><img src="index_files/figure-html/graf%20genero-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>El 16% de los hombres y el 6% de las mujeres sufrieton eventos. <!-- **Los hombres sufrieron más eventos que las mujeres** --></p>
+<p>El 16% de los hombres y el 6% de las mujeres sufrieton eventos.</p>
 </div>
 </div>
 <div id="análisis-bivariable" class="section level2">
@@ -218,7 +216,6 @@ $(document).ready(function () {
 <div id="con-eventos-1" class="section level4 unnumbered unnumbered">
 <h4>Con eventos</h4>
 <p><img src="index_files/figure-html/graphConEventosGenero-1.png" width="768" /></p>
-<!-- Revisar el tema de la grafica de mujeres, parece que hay una subpoblacion en el primer grupo que consta de mujeres mas jovenes que tienen eventos. Ver a que se debe esto, buscar entre los factores de riesgo cuales predominan en esta subpoblacion. -->
 </div>
 <div id="sin-eventos-1" class="section level4 unnumbered unnumbered">
 <h4>Sin eventos</h4>
@@ -340,15 +337,6 @@ $(document).ready(function () {
 <p>Building Predictive Models in R Using the caret Package. <a href="https://www.jstatsoft.org/article/view/v028i05">Kuhn (2008)</a></p>
 <p>A Proposed Data Analytics Workflow and Example Using the R Caret Package. <a href="http://matthewalanham.com/Students/2018_MWDSI_R%20caret%20paper.pdf">Jones et al (2018)</a></p>
 <p>De todas las variables independientes del conjunto de datos (la variable Evento sería dependiente, la que se desea predecir), la herramienta CARET sugiere utilizar las siguientes:</p>
-<!-- Recursive feature selection -->
-<!-- Outer resampling method: Cross-Validated (10 fold, repeated 3 times)  -->
-<!-- Resampling performance over subset size: -->
-<!--  Variables   RMSE Rsquared    MAE  RMSESD RsquaredSD   MAESD Selected -->
-<!--          4 0.3093   0.1328 0.1979 0.03791    0.06909 0.02683          -->
-<!--          8 0.3099   0.1311 0.1882 0.03641    0.06897 0.02770          -->
-<!--         16 0.2990   0.1869 0.1797 0.03439    0.07286 0.02694          -->
-<!--         19 0.2979   0.1924 0.1806 0.03411    0.07811 0.02676        * -->
-<!-- The top 5 variables (out of 19): -->
 <center>
 <table>
 <thead>
@@ -363,18 +351,11 @@ $(document).ready(function () {
 <tbody>
 </tbody>
 </table>
-<!-- | Variable | Significado                                | -->
-<!-- |----------|--------------------------------------------| -->
-<!-- | Edad     | Edad                                       | -->
-<!-- | AHF      | Antecedentes familiares                    | -->
-<!-- | TBQ      | Tabaquismo                                 | -->
-<!-- | OBES     | Obesidad                                   | -->
-<!-- | DLP      | Dislipemia                                 | -->
 </center>
 <p class="bottom-space">
 </p>
 <p>Pero se puede ver como en ese listado no están presentes algunas variables que, en el análisis de datos realizado en la sección anterior, son relevantes. Como la hipertensión arterial (HTA), la diábetes (DBT) y la historia de revascularización (SCApHR).</p>
-<p>Aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos.</p>
+<p>Aún cuando la herramienta CARET participa en el momento de seleccionar variables, también se utiliza la información obtenido del análisis de datos para elegirlas.</p>
 </div>
 <div id="modelo" class="section level2">
 <h2>Modelo</h2>
@@ -387,7 +368,6 @@ $(document).ready(function () {
 <th>Dislipemia</th>
 <th>Tabaquismo</th>
 <th>Obesidad</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
@@ -409,7 +389,7 @@ $(document).ready(function () {
 <p><img src="index_files/figure-html/auroc-1.png" width="768" /></p>
 <p class="bottom-space">
 </p>
-<p>El valor de la curva AUROC es de 0.822</p>
+<p>El valor de la curva AUROC es de 0.822. Este valor implica que el modelo tiene una precisión del 82,2% y el 17,8% restante se divide entre falsos negativos y falsos positivos.</p>
 </div>
 </div>
 </div>
